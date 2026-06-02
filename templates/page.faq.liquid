@@ -1,0 +1,91 @@
+<section class="page-hero" style="min-height:40vh">
+  <div class="page-hero-bg" style="background-image:url('{{ 'hero-banner.png' | asset_url }}')"></div>
+  <div class="container">
+    <div class="page-hero-content">
+      <p class="section-label">Help Center</p>
+      <h1 class="section-title" style="font-size:clamp(2rem,5vw,3rem)">Frequently Asked Questions</h1>
+      <p style="color:var(--text-secondary);max-width:550px;margin:0 auto">Find quick answers to common questions</p>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="faq-layout reveal">
+      <div class="faq-categories">
+        <button class="faq-cat-btn active" onclick="filterFAQ('all',this)">All Questions</button>
+        <button class="faq-cat-btn" onclick="filterFAQ('orders',this)">Orders & Shipping</button>
+        <button class="faq-cat-btn" onclick="filterFAQ('products',this)">Products</button>
+        <button class="faq-cat-btn" onclick="filterFAQ('returns',this)">Returns & Refunds</button>
+        <button class="faq-cat-btn" onclick="filterFAQ('account',this)">Account</button>
+      </div>
+      <div class="faq-list" id="faqList">
+        <div class="faq-item" data-cat="orders">
+          <button class="faq-question" onclick="toggleFAQ(this)"><span>How long does shipping take?</span><i class="fas fa-chevron-down"></i></button>
+          <div class="faq-answer"><p>Standard shipping takes 5–7 business days within India. Metro cities typically receive orders in 3–5 days. Express shipping (1–2 days) is available at checkout for an additional charge. International orders take 10–15 business days.</p></div>
+        </div>
+        <div class="faq-item" data-cat="orders">
+          <button class="faq-question" onclick="toggleFAQ(this)"><span>Do you offer free shipping?</span><i class="fas fa-chevron-down"></i></button>
+          <div class="faq-answer"><p>Yes! We offer free standard shipping on all orders above $75 (or ₹6,000). Orders below this threshold have a flat shipping fee of $9.99.</p></div>
+        </div>
+        <div class="faq-item" data-cat="orders">
+          <button class="faq-question" onclick="toggleFAQ(this)"><span>What payment methods do you accept?</span><i class="fas fa-chevron-down"></i></button>
+          <div class="faq-answer"><p>We accept Credit/Debit Cards (Visa, Mastercard, Amex) via Stripe, UPI payments (Google Pay, PhonePe, Paytm), and Cash on Delivery (COD). COD charges vary by location — metro cities get free COD, while other areas have a small surcharge.</p></div>
+        </div>
+        <div class="faq-item" data-cat="orders">
+          <button class="faq-question" onclick="toggleFAQ(this)"><span>How does Cash on Delivery (COD) work?</span><i class="fas fa-chevron-down"></i></button>
+          <div class="faq-answer"><p>COD charges are based on your delivery location: Metro cities (Mumbai, Delhi, Bangalore, etc.) — FREE. Tier-1 cities — ₹29. Tier-2 cities — ₹49. Other locations — ₹79. The charge is calculated automatically when you enter your city at checkout.</p></div>
+        </div>
+        <div class="faq-item" data-cat="products">
+          <button class="faq-question" onclick="toggleFAQ(this)"><span>Are your products natural and organic?</span><i class="fas fa-chevron-down"></i></button>
+          <div class="faq-answer"><p>Yes! All GROOMVAULT products are made with natural, premium-grade ingredients. We use organic botanicals wherever possible and our formulations are free from parabens, sulfates, artificial colors, and harmful chemicals.</p></div>
+        </div>
+        <div class="faq-item" data-cat="products">
+          <button class="faq-question" onclick="toggleFAQ(this)"><span>Are your products tested on animals?</span><i class="fas fa-chevron-down"></i></button>
+          <div class="faq-answer"><p>Absolutely not. GROOMVAULT is proudly cruelty-free. We never test our products on animals and are committed to ethical, sustainable practices.</p></div>
+        </div>
+        <div class="faq-item" data-cat="products">
+          <button class="faq-question" onclick="toggleFAQ(this)"><span>How do I choose the right products for my skin/hair type?</span><i class="fas fa-chevron-down"></i></button>
+          <div class="faq-answer"><p>Each product page includes detailed descriptions and ingredient lists. If you need personalized recommendations, contact our grooming experts at support@groomvault.com — they'll be happy to help you build the perfect routine.</p></div>
+        </div>
+        <div class="faq-item" data-cat="returns">
+          <button class="faq-question" onclick="toggleFAQ(this)"><span>What is your return policy?</span><i class="fas fa-chevron-down"></i></button>
+          <div class="faq-answer"><p>We offer a 30-day money-back guarantee on all products. If you're not satisfied, contact us within 30 days of delivery for a full refund or exchange. Products must be in their original packaging with at least 75% remaining.</p></div>
+        </div>
+        <div class="faq-item" data-cat="returns">
+          <button class="faq-question" onclick="toggleFAQ(this)"><span>How do I initiate a return?</span><i class="fas fa-chevron-down"></i></button>
+          <div class="faq-answer"><p>Email support@groomvault.com with your order ID and reason for return. We'll send you a prepaid return label and process your refund within 5–7 business days of receiving the returned item.</p></div>
+        </div>
+        <div class="faq-item" data-cat="account">
+          <button class="faq-question" onclick="toggleFAQ(this)"><span>Do I need an account to place an order?</span><i class="fas fa-chevron-down"></i></button>
+          <div class="faq-answer"><p>No, you can checkout as a guest. However, creating an account lets you track orders, save your wishlist, get personalized recommendations, and earn loyalty points on every purchase.</p></div>
+        </div>
+        <div class="faq-item" data-cat="account">
+          <button class="faq-question" onclick="toggleFAQ(this)"><span>How do I reset my password?</span><i class="fas fa-chevron-down"></i></button>
+          <div class="faq-answer"><p>Click "Sign In" and select "Forgot Password". Enter your registered email and we'll send you a reset link. If you signed up with Google, simply use the "Continue with Google" option.</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="faq-cta reveal">
+      <h3>Still have questions?</h3>
+      <p style="color:var(--text-secondary);margin:12px 0 20px">Our team is happy to help. Reach out anytime.</p>
+      <a href="/pages/contact" class="btn btn-primary" style="text-decoration:none">Contact Us <i class="fas fa-arrow-right"></i></a>
+    </div>
+  </div>
+</section>
+
+<script>
+function toggleFAQ(btn) {
+  const item = btn.closest('.faq-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+function filterFAQ(cat, btn) {
+  document.querySelectorAll('.faq-cat-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.faq-item').forEach(item => {
+    item.style.display = (cat === 'all' || item.dataset.cat === cat) ? 'block' : 'none';
+  });
+}
+</script>

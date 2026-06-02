@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="{{ request.locale.iso_code }}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="{{ page_description | escape }}">
+  
+  <title>{{ page_title }} — GROOMVAULT</title>
+
+  <link rel="icon" type="image/png" href="{{ 'favicon.png' | asset_url }}">
+  
+  {{ 'styles.css' | asset_url | stylesheet_tag }}
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  {{ content_for_header }}
+</head>
+<body>
+
+<!-- Preloader -->
+<div id="preloader">
+  <div class="loader-logo">GROOMVAULT</div>
+</div>
+
+<!-- Search Overlay -->
+<div class="search-overlay" id="searchOverlay">
+  <div class="search-overlay-inner">
+    <button class="search-overlay-close" onclick="closeSearch()"><i class="fas fa-times"></i></button>
+    <h2 class="search-overlay-title">What are you looking for?</h2>
+    <div class="search-input-wrapper">
+      <i class="fas fa-search"></i>
+      <input type="text" id="searchInput" placeholder="Search products, categories..." autocomplete="off">
+    </div>
+    <div class="search-results" id="searchResults">
+      <div class="search-hint">
+        <i class="fas fa-lightbulb"></i>
+        <span>Try searching for "beard oil", "razor", or "cologne"</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Wishlist Sidebar -->
+<div class="wishlist-overlay" id="wishlistOverlay" onclick="toggleWishlist()"></div>
+<div class="wishlist-drawer" id="wishlistDrawer">
+  <div class="cart-header">
+    <h3><i class="far fa-heart" style="margin-right:8px;color:var(--gold)"></i> Wishlist (<span id="wishlistItemCount">0</span>)</h3>
+    <button class="cart-close" onclick="toggleWishlist()"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="cart-items" id="wishlistItems">
+    <div class="cart-empty">
+      <div class="cart-empty-icon"><i class="far fa-heart"></i></div>
+      <p>Your wishlist is empty</p>
+    </div>
+  </div>
+  <div class="cart-footer">
+    <a href="/pages/wishlist" class="btn btn-primary" style="width:100%;justify-content:center;text-decoration:none">View Full Wishlist <i class="fas fa-arrow-right"></i></a>
+  </div>
+</div>
+
+<!-- Login Modal -->
+<div class="modal-overlay" id="loginModal">
+  <div class="login-modal">
+    <button class="modal-close" onclick="closeLoginModal()"><i class="fas fa-times"></i></button>
+    <div class="login-modal-content">
+      <div class="login-header">
+        <h2>Welcome Back</h2>
+        <p>Sign in to your GROOMVAULT account</p>
+      </div>
+      <div id="firebaseAuthUI">
+        <form id="loginForm" onsubmit="handleEmailLogin(event)">
+          <div class="form-group">
+            <label for="loginEmail">Email</label>
+            <input type="email" id="loginEmail" placeholder="you@example.com" required>
+          </div>
+          <div class="form-group">
+            <label for="loginPassword">Password</label>
+            <input type="password" id="loginPassword" placeholder="••••••••" required>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:8px">
+            Sign In <i class="fas fa-arrow-right"></i>
+          </button>
+        </form>
+        <div class="login-divider"><span>or continue with</span></div>
+        <button class="btn btn-outline google-btn" onclick="handleGoogleLogin()" style="width:100%;justify-content:center">
+          <i class="fab fa-google"></i> Google
+        </button>
+        <p class="login-toggle" id="loginToggleText">
+          Don't have an account? <a href="#" onclick="toggleAuthMode(event)">Sign Up</a>
+        </p>
+      </div>
+      <div id="userProfile" style="display:none">
+        <div class="user-profile-card">
+          <div class="user-avatar" id="userAvatar">GV</div>
+          <h3 id="userName">User</h3>
+          <p id="userEmail">user@email.com</p>
+          <button class="btn btn-outline" onclick="handleLogout()" style="width:100%;justify-content:center;margin-top:16px">
+            Sign Out <i class="fas fa-sign-out-alt"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Announcement Bar -->
+<div class="announcement-bar">
+  ✦ Free Shipping on Orders Over $75 — Use Code: <strong>GROOM25</strong> for 25% Off ✦
+</div>
+
+<!-- Navbar -->
+<nav class="navbar" id="navbar">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">GROOM<span>VAULT</span></a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="/#home">Home</a></li>
+      <li><a href="/#categories">Categories</a></li>
+      <li><a href="/#products">Shop</a></li>
+      <li><a href="/#featured">Featured</a></li>
+      <li><a href="/#reviews">Reviews</a></li>
+      <li><a href="/pages/about">About</a></li>
+      <li><a href="/pages/contact">Contact</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button id="searchBtn" aria-label="Search"><i class="fas fa-search"></i></button>
+      <button id="loginBtn" aria-label="Account"><i class="far fa-user"></i></button>
+      <button id="wishlistBtn" aria-label="Wishlist">
+        <i class="far fa-heart"></i>
+        <span class="wishlist-count" id="wishlistCount">0</span>
+      </button>
+      <button id="cartBtn" aria-label="Cart">
+        <i class="fas fa-shopping-bag"></i>
+        <span class="cart-count" id="cartCount">0</span>
+      </button>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<main role="main">
+  {{ content_for_layout }}
+</main>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="/" class="nav-logo">GROOM<span>VAULT</span></a>
+        <p>Premium men's grooming products crafted with care. Elevate your routine, elevate your confidence.</p>
+        <div class="footer-social">
+          <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="#" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
+          <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Shop</h4>
+        <ul>
+          <li><a href="/#products">Beard Care</a></li>
+          <li><a href="/#products">Skincare</a></li>
+          <li><a href="/#products">Hair Styling</a></li>
+          <li><a href="/#products">Shaving</a></li>
+          <li><a href="/#products">Fragrances</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="/pages/about">About Us</a></li>
+          <li><a href="/pages/contact">Contact Us</a></li>
+          <li><a href="/pages/faq">FAQ</a></li>
+          <li><a href="/pages/wishlist">My Wishlist</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Support</h4>
+        <ul>
+          <li><a href="/pages/contact">Contact Us</a></li>
+          <li><a href="/pages/faq">FAQ</a></li>
+          <li><a href="/pages/privacy">Privacy Policy</a></li>
+          <li><a href="/checkout">Track Order</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; {{ 'now' | date: "%Y" }} GROOMVAULT. All rights reserved. Crafted with precision.</p>
+    </div>
+  </div>
+</footer>
+
+<!-- Cart Overlay & Drawer -->
+<div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+<div class="cart-drawer" id="cartDrawer">
+  <div class="cart-header">
+    <h3>Your Cart (<span id="cartItemCount">0</span>)</h3>
+    <button class="cart-close" onclick="toggleCart()"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <div class="cart-empty">
+      <div class="cart-empty-icon"><i class="fas fa-shopping-bag"></i></div>
+      <p>Your cart is empty</p>
+    </div>
+  </div>
+  <div class="cart-footer">
+    <div class="cart-total">
+      <span>Total</span>
+      <span id="cartTotal">$0.00</span>
+    </div>
+    <a href="/checkout" class="btn btn-primary" style="width:100%;justify-content:center;text-decoration:none" id="checkoutBtn">Checkout <i class="fas fa-arrow-right"></i></a>
+  </div>
+</div>
+
+<!-- Quick View Modal -->
+<div class="modal-overlay" id="quickViewModal">
+  <div class="modal" style="position:relative">
+    <button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
+    <div class="modal-image" id="modalImage"></div>
+    <div class="modal-content" id="modalContent"></div>
+  </div>
+</div>
+
+<!-- Back to Top -->
+<button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">
+  <i class="fas fa-chevron-up"></i>
+</button>
+
+<!-- Toast Notification -->
+<div id="toast" style="position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--bg-card);border:1px solid var(--gold);color:var(--text-primary);padding:14px 28px;border-radius:var(--radius);font-size:0.85rem;z-index:5000;transition:transform 0.4s cubic-bezier(0.4,0,0.2,1);display:flex;align-items:center;gap:10px;box-shadow:0 8px 30px rgba(0,0,0,0.4)">
+  <i class="fas fa-check-circle" style="color:var(--gold)"></i>
+  <span id="toastMsg">Item added to cart!</span>
+</div>
+
+<!-- Firebase SDK (For Mock/Existing Auth logic) -->
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
+{{ 'app.js' | asset_url | script_tag }}
+
+</body>
+</html>

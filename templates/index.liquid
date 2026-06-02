@@ -1,0 +1,207 @@
+<!-- Hero -->
+<section class="hero" id="home">
+  <div class="hero-bg" style="background-image: url('{{ 'hero-banner.png' | asset_url }}');"></div>
+  <div class="container">
+    <div class="hero-content">
+      <span class="hero-badge">Handcrafted Excellence</span>
+      <h1>Elevate Your <span class="accent">Grooming</span> Ritual</h1>
+      <p>Discover premium grooming essentials crafted for the modern gentleman. From beard care to skincare — redefine your daily routine.</p>
+      <div class="hero-buttons">
+        <button class="btn btn-primary" onclick="smoothScrollTo('#products')">Shop Collection <i class="fas fa-arrow-right"></i></button>
+        <button class="btn btn-outline" onclick="smoothScrollTo('#categories')">Explore Categories</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Benefits Strip -->
+<section class="section" style="padding:50px 0">
+  <div class="container">
+    <div class="benefits-grid reveal">
+      <div class="benefit-card">
+        <div class="benefit-icon"><i class="fas fa-leaf"></i></div>
+        <h3>Natural Ingredients</h3>
+        <p>Premium botanicals and essential oils, free from harmful chemicals</p>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon"><i class="fas fa-truck-fast"></i></div>
+        <h3>Free Shipping</h3>
+        <p>Complimentary delivery on all orders above $75</p>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon"><i class="fas fa-shield-halved"></i></div>
+        <h3>30-Day Guarantee</h3>
+        <p>Not satisfied? Full money-back guarantee, no questions asked</p>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon"><i class="fas fa-award"></i></div>
+        <h3>Award Winning</h3>
+        <p>Recognized by GQ, Esquire, and Men's Health magazines</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Categories -->
+<section class="section" id="categories" style="padding-top:40px">
+  <div class="container">
+    <div class="section-header reveal">
+      <p class="section-label">Browse By Category</p>
+      <h2 class="section-title">Shop Your Ritual</h2>
+      <p class="section-desc">Find exactly what you need for every step of your grooming journey</p>
+    </div>
+    <div class="categories-grid reveal">
+      <div class="category-card" onclick="filterProducts('beard')">
+        <img src="{{ 'beard-oil.png' | asset_url }}" alt="Beard Care">
+        <div class="category-overlay">
+          <h3>Beard Care</h3>
+          <span>12 Products</span>
+        </div>
+      </div>
+      <div class="category-card" onclick="filterProducts('skin')">
+        <img src="{{ 'face-wash.png' | asset_url }}" alt="Skincare">
+        <div class="category-overlay">
+          <h3>Skincare</h3>
+          <span>18 Products</span>
+        </div>
+      </div>
+      <div class="category-card" onclick="filterProducts('hair')">
+        <img src="{{ 'hair-pomade.png' | asset_url }}" alt="Hair Styling">
+        <div class="category-overlay">
+          <h3>Hair Styling</h3>
+          <span>10 Products</span>
+        </div>
+      </div>
+      <div class="category-card" onclick="filterProducts('shave')">
+        <img src="{{ 'razor.png' | asset_url }}" alt="Shaving">
+        <div class="category-overlay">
+          <h3>Shaving</h3>
+          <span>14 Products</span>
+        </div>
+      </div>
+      <div class="category-card" onclick="filterProducts('fragrance')">
+        <img src="{{ 'cologne.png' | asset_url }}" alt="Fragrances">
+        <div class="category-overlay">
+          <h3>Fragrances</h3>
+          <span>8 Products</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Products -->
+<section class="section" id="products">
+  <div class="container">
+    <div class="section-header reveal">
+      <p class="section-label">Our Collection</p>
+      <h2 class="section-title">Bestselling Products</h2>
+      <p class="section-desc">Curated essentials trusted by thousands of well-groomed men worldwide</p>
+    </div>
+    <div class="products-tabs reveal">
+      <button class="tab-btn active" onclick="filterProducts('all')">All</button>
+      <button class="tab-btn" onclick="filterProducts('beard')">Beard</button>
+      <button class="tab-btn" onclick="filterProducts('skin')">Skincare</button>
+      <button class="tab-btn" onclick="filterProducts('hair')">Hair</button>
+      <button class="tab-btn" onclick="filterProducts('shave')">Shaving</button>
+      <button class="tab-btn" onclick="filterProducts('fragrance')">Fragrance</button>
+    </div>
+    <div class="products-grid reveal" id="productsGrid"></div>
+  </div>
+</section>
+
+<!-- Featured Banner -->
+<section class="section" id="featured">
+  <div class="container">
+    <div class="featured-banner reveal">
+      <div class="featured-content">
+        <span class="hero-badge">Limited Edition</span>
+        <h2 class="section-title" style="text-align:left;margin-top:16px">The Gentleman's Complete Kit</h2>
+        <p style="color:var(--text-secondary);margin:16px 0 28px">Everything you need in one premium collection. Beard oil, face wash, pomade, razor, and cologne — at 40% off retail price.</p>
+        <div style="display:flex;align-items:center;gap:16px;margin-bottom:28px">
+          <span style="font-size:2rem;font-weight:700;color:var(--gold)">$149.99</span>
+          <span style="font-size:1.1rem;color:var(--text-muted);text-decoration:line-through">$249.95</span>
+          <span style="background:var(--danger);color:#fff;padding:4px 10px;border-radius:2px;font-size:0.7rem;font-weight:700">SAVE 40%</span>
+        </div>
+        <button class="btn btn-primary" onclick="addToCart({id:99,name:'Gentleman\'s Complete Kit',price:149.99,image:'{{ 'beard-oil.png' | asset_url }}',category:'bundle'})">
+          Add to Cart <i class="fas fa-shopping-bag"></i>
+        </button>
+      </div>
+      <div class="featured-image">
+        <img src="{{ 'cologne.png' | asset_url }}" alt="Gentleman's Kit">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials -->
+<section class="section" id="reviews">
+  <div class="container">
+    <div class="section-header reveal">
+      <p class="section-label">What They Say</p>
+      <h2 class="section-title">Customer Reviews</h2>
+      <p class="section-desc">Join 25,000+ satisfied gentlemen who trust GROOMVAULT</p>
+    </div>
+    <div class="testimonials-slider reveal">
+      <div class="testimonial-card">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">"The beard oil is incredible — my beard has never felt softer. The scent is subtle yet masculine. I've been using it daily for three months and the results speak for themselves."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">JM</div>
+          <div>
+            <div class="testimonial-name">James Mitchell</div>
+            <div class="testimonial-verified"><i class="fas fa-circle-check"></i> Verified Purchase</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">"Switched from Dollar Shave Club to GROOMVAULT and never looked back. The razor gives the closest shave, and the shaving cream is luxurious. Premium quality at fair prices."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">RK</div>
+          <div>
+            <div class="testimonial-name">Ryan Kowalski</div>
+            <div class="testimonial-verified"><i class="fas fa-circle-check"></i> Verified Purchase</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">"The Gentleman's Kit is worth every penny. Everything from the packaging to the products screams quality. My morning routine went from boring to something I look forward to."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">DL</div>
+          <div>
+            <div class="testimonial-name">David Lin</div>
+            <div class="testimonial-verified"><i class="fas fa-circle-check"></i> Verified Purchase</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">"My wife noticed the difference immediately. The cologne has an incredible scent profile — woody and sophisticated without being overpowering. Compliments all day long."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">AS</div>
+          <div>
+            <div class="testimonial-name">Alex Santos</div>
+            <div class="testimonial-verified"><i class="fas fa-circle-check"></i> Verified Purchase</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Newsletter -->
+<section class="section" id="contact">
+  <div class="container">
+    <div class="newsletter reveal">
+      <p class="section-label">Stay in the Loop</p>
+      <h2 class="section-title">Join the GROOMVAULT Club</h2>
+      <p class="section-desc">Get exclusive deals, grooming tips, and early access to new products.</p>
+      <form class="newsletter-form" onsubmit="handleNewsletter(event)">
+        <input type="email" placeholder="Your email address" required id="newsletterEmail">
+        <button type="submit" class="btn btn-primary">Subscribe</button>
+      </form>
+    </div>
+  </div>
+</section>

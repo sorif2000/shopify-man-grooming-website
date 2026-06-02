@@ -1,0 +1,103 @@
+<section class="page-hero">
+  <div class="page-hero-bg" style="background-image:url('{{ 'hero-banner.png' | asset_url }}')"></div>
+  <div class="container">
+    <div class="page-hero-content">
+      <p class="section-label">Get In Touch</p>
+      <h1 class="section-title" style="font-size:clamp(2rem,5vw,3.5rem)">Contact Us</h1>
+      <p style="color:var(--text-secondary);max-width:550px;margin:0 auto">We'd love to hear from you. Our team is ready to help.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="contact-layout reveal">
+      <div class="contact-info-col">
+        <h2 style="font-family:var(--font-heading);font-size:1.6rem;margin-bottom:24px">Let's Talk</h2>
+        <p style="color:var(--text-secondary);margin-bottom:32px;line-height:1.8">Have a question about our products? Need help with an order? Or maybe you'd like to discuss a partnership? We're here for you.</p>
+        <div class="contact-info-item">
+          <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+          <div><strong>Email</strong><p>support@groomvault.com</p></div>
+        </div>
+        <div class="contact-info-item">
+          <div class="contact-icon"><i class="fas fa-phone"></i></div>
+          <div><strong>Phone</strong><p>+91 98765 43210</p></div>
+        </div>
+        <div class="contact-info-item">
+          <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+          <div><strong>Address</strong><p>42 Premium Lane, Bandra West<br>Mumbai, MH 400050, India</p></div>
+        </div>
+        <div class="contact-info-item">
+          <div class="contact-icon"><i class="fas fa-clock"></i></div>
+          <div><strong>Business Hours</strong><p>Mon–Sat: 10 AM – 7 PM IST<br>Sunday: Closed</p></div>
+        </div>
+        <div class="footer-social" style="margin-top:24px">
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-x-twitter"></i></a>
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+      <div class="contact-form-col">
+        <form class="contact-form" onsubmit="handleContactForm(event)">
+          <div class="form-row">
+            <div class="form-group"><label>First Name *</label><input type="text" required placeholder="John"></div>
+            <div class="form-group"><label>Last Name *</label><input type="text" required placeholder="Doe"></div>
+          </div>
+          <div class="form-group"><label>Email *</label><input type="email" required placeholder="john@example.com"></div>
+          <div class="form-group"><label>Phone</label><input type="tel" placeholder="+91 98765 43210"></div>
+          <div class="form-group">
+            <label>Subject *</label>
+            <select required>
+              <option value="">Select a subject</option>
+              <option>Order Inquiry</option>
+              <option>Product Question</option>
+              <option>Return / Exchange</option>
+              <option>Partnership</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-group"><label>Message *</label><textarea rows="5" required placeholder="Tell us how we can help..."></textarea></div>
+          <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center">Send Message <i class="fas fa-paper-plane"></i></button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+async function handleContactForm(e) {
+  e.preventDefault();
+  const form = e.target;
+  const btn = form.querySelector('button[type="submit"]');
+  const originalText = btn.innerHTML;
+  
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+  btn.disabled = true;
+
+  try {
+    const response = await fetch('https://groomvault-api.onrender.com/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: form.querySelector('input[placeholder="John"]').value + ' ' + form.querySelector('input[placeholder="Doe"]').value,
+        email: form.querySelector('input[type="email"]').value,
+        message: form.querySelector('textarea').value
+      })
+    });
+
+    if (response.ok) {
+      showToast('Message sent! We\'ll get back to you within 24 hours.');
+      form.reset();
+    } else {
+      showToast('Failed to send message. Please try again.');
+    }
+  } catch (error) {
+    console.error('Contact error:', error);
+    showToast('Network error. Please try again later.');
+  } finally {
+    btn.innerHTML = originalText;
+    btn.disabled = false;
+  }
+}
+</script>

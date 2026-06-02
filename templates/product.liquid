@@ -1,0 +1,145 @@
+<!-- Breadcrumb -->
+<section style="padding:24px 0 0">
+  <div class="container">
+    <div class="breadcrumb" id="breadcrumb">
+      <a href="/">Home</a> <span>/</span> <a href="/collections/all">Shop</a> <span>/</span> <span>{{ product.title }}</span>
+    </div>
+  </div>
+</section>
+
+<!-- Product Detail -->
+<section class="section" style="padding-top:20px">
+  <div class="container">
+    <div class="product-detail-layout" id="productDetail">
+      
+      <div class="pd-gallery">
+        <div class="pd-main-image">
+          <img src="{{ product.featured_image | img_url: 'large' }}" alt="{{ product.title | escape }}" id="mainImage">
+        </div>
+        <div class="pd-thumbs">
+          {% for image in product.images %}
+            <div class="pd-thumb {% if forloop.first %}active{% endif %}">
+              <img src="{{ image.src | img_url: 'compact' }}" alt="{{ product.title | escape }}">
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+      
+      <div class="pd-info">
+        <div class="product-category" style="margin-bottom:8px">
+          {% if product.collections.first %}
+            {{ product.collections.first.title }}
+          {% else %}
+            Grooming
+          {% endif %}
+        </div>
+        
+        <h1 style="font-family:var(--font-heading);font-size:2rem;margin-bottom:12px">{{ product.title }}</h1>
+        
+        <div class="product-rating" style="margin-bottom:16px;font-size:1rem">
+          <span class="stars" style="font-size:1rem">★★★★★</span>
+          <span class="rating-count">5.0 · 24 reviews</span>
+        </div>
+        
+        <div class="product-price" style="margin-bottom:20px">
+          <span class="price-current" style="font-size:2rem">{{ product.price | money }}</span>
+          {% if product.compare_at_price > product.price %}
+            <span class="price-old" style="font-size:1.2rem">{{ product.compare_at_price | money }}</span>
+          {% endif %}
+        </div>
+        
+        <p style="color:var(--text-secondary);line-height:1.8;margin-bottom:24px;font-size:0.95rem">{{ product.description }}</p>
+        
+        <div class="pd-features">
+          <div class="pd-feature"><i class="fas fa-leaf"></i> 100% Natural Ingredients</div>
+          <div class="pd-feature"><i class="fas fa-flask"></i> Dermatologist Tested</div>
+          <div class="pd-feature"><i class="fas fa-recycle"></i> Eco-Friendly Packaging</div>
+          <div class="pd-feature"><i class="fas fa-paw"></i> Cruelty Free</div>
+        </div>
+
+        {% form 'product', product %}
+          <div class="pd-qty-row">
+            <div class="pd-qty">
+              <button type="button" class="qty-btn" onclick="adjustProductQty(-1)">−</button>
+              <span id="detailQty">1</span>
+              <button type="button" class="qty-btn" onclick="adjustProductQty(1)">+</button>
+              <input type="hidden" name="quantity" id="quantity-input" value="1">
+            </div>
+            
+            <input type="hidden" name="id" value="{{ product.variants.first.id }}">
+            
+            <button type="submit" class="btn btn-primary" style="flex:1;justify-content:center">
+              <i class="fas fa-shopping-bag"></i> Add to Cart
+            </button>
+          </div>
+        {% endform %}
+        
+        <div class="pd-trust">
+          <span><i class="fas fa-truck"></i> Free Shipping over $75</span>
+          <span><i class="fas fa-undo"></i> 30-Day Returns</span>
+          <span><i class="fas fa-lock"></i> Secure Payment</span>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</section>
+
+<!-- Related Products -->
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="section-header reveal">
+      <p class="section-label">You May Also Like</p>
+      <h2 class="section-title">Related Products</h2>
+    </div>
+    <div class="products-grid reveal" id="relatedGrid">
+      {% assign current_product = product %}
+      {% assign count = 0 %}
+      {% for prod in collections.all.products %}
+        {% if prod.id != current_product.id and count < 4 %}
+          {% assign count = count | plus: 1 %}
+          <div class="product-card" onclick="window.location.href='{{ prod.url }}'" style="cursor:pointer">
+            <div class="product-image">
+              <img src="{{ prod.featured_image | img_url: 'medium' }}" alt="{{ prod.title }}" loading="lazy">
+            </div>
+            <div class="product-info">
+              <div class="product-category">Grooming</div>
+              <h3 class="product-name">{{ prod.title }}</h3>
+              <div class="product-rating">
+                <span class="stars">★★★★★</span>
+              </div>
+              <div class="product-price">
+                <span class="price-current">{{ prod.price | money }}</span>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<script>
+  function adjustProductQty(change) {
+    const qtySpan = document.getElementById('detailQty');
+    const qtyInput = document.getElementById('quantity-input');
+    let currentQty = parseInt(qtySpan.textContent);
+    currentQty = Math.max(1, currentQty + change);
+    qtySpan.textContent = currentQty;
+    qtyInput.value = currentQty;
+  }
+
+  window.addEventListener('load', () => {
+    // Thumb gallery logic
+    const mainImage = document.getElementById('mainImage');
+    const thumbs = document.querySelectorAll('.pd-thumb');
+    
+    thumbs.forEach(th => {
+      th.addEventListener('click', () => {
+        thumbs.forEach(t => t.classList.remove('active'));
+        th.classList.add('active');
+        mainImage.src = th.querySelector('img').src.replace('_compact', '_large');
+      });
+    });
+  });
+</script>
